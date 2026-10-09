@@ -204,17 +204,14 @@ func runShift(_ fleet: [Drone], rounds: Int) -> Int {
     return totalWork
 }
 
-// Mission fragment A: total work from three rounds.
 let A = runShift(fleet, rounds: 3)
-
-// Mission fragment B: remaining charge across all drones.
+print("DEBUG A:", A)
 var B = 0
 
 for drone in fleet {
     B += drone.cell.level()
 }
 
-// Mission fragment C: drones that can afford one more task.
 var C = 0
 
 for drone in fleet {
@@ -250,8 +247,6 @@ protocol Rechargeable {
     mutating func recharge(by amount: Int)
 }
 
-// Drone conforms to Rechargeable above.
-// SensorModule is a struct, so its recharge method must be mutating.
 
 struct SensorModule: Diagnosable, Rechargeable {
     let componentID: String
@@ -284,7 +279,6 @@ for record in sensorData {
 }
 
 // 4.3 One protocol can represent both classes and structs.
-// [Drone] cannot hold SensorModule because sensors do not inherit Drone.
 
 func diagnosticsReport(components: [any Diagnosable]) -> String {
     var report = ""
@@ -343,7 +337,6 @@ extension LegacyBeacon: Diagnosable {
     }
 }
 
-// All diagnostic components share the same protocol type.
 var components: [any Diagnosable] = []
 
 for drone in fleet {
@@ -359,7 +352,6 @@ components.append(beacon)
 print("\n--- DIAGNOSTICS REPORT ---")
 print(diagnosticsReport(components: components))
 
-// Mission fragment D: sum all component status codes.
 var D = 0
 
 for component in components {
